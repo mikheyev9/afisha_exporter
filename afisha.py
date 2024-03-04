@@ -11,7 +11,6 @@ from pathlib import Path
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 logger = logging.getLogger(__name__)
 
@@ -23,14 +22,15 @@ def get_url_to_data(start_url):
                   ' AppleWebKit/537.36 (KHTML, like Gecko)'
                   ' Chrome/111.0.0.0 Safari/537.36')
 
-    caps = DesiredCapabilities.CHROME
-    caps['goog:loggingPrefs'] = {'performance': 'ALL'}
+    #caps = DesiredCapabilities.CHROME
+    #['goog:loggingPrefs'] = {'performance': 'ALL'}
 
     options = Options()
+    options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
     #options.add_argument("--headless")
     options.add_argument(f'--user-agent={user_agent}')
 
-    driver = webdriver.Chrome(desired_capabilities=caps, options=options)
+    driver = webdriver.Chrome(options=options)
 
     try:
         driver.get(url=start_url)
