@@ -11,6 +11,8 @@ from pathlib import Path
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+
 
 logger = logging.getLogger(__name__)
 
@@ -30,8 +32,12 @@ def get_url_to_data(start_url):
     #options.add_argument("--headless")
     options.add_argument(f'--user-agent={user_agent}')
 
-    driver = webdriver.Chrome(options=options)
-
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+    chromedriver_path = os.path.join(script_directory,  'chromedriver.exe')
+    print(chromedriver_path, 'chromedriver_path')
+    service = Service(executable_path=chromedriver_path) 
+    driver = webdriver.Chrome(service=service,options=options)
+       
     try:
         driver.get(url=start_url)
         time.sleep(15)
